@@ -48,6 +48,27 @@ iFIX scripting is VBA. Small exercises:
 - Log every operator command to a text file with a timestamp.
 - Comm watchdog: every second compare `PLC_HB` with its last value; if unchanged for 5 s, show the COMM LOSS banner.
 
+## Lessons learned (first build, iFIX 2024)
+
+Things that tripped up the first build. Check these first on a fresh install.
+
+- **Same network.** The PC running IGS must be on the same network as the ESP32 (for example, both on the same WiFi). If IGS logs `Device is not responding`, run `ping <esp32-ip>` and `ipconfig` before changing any IGS settings.
+- **IGS ships with a sample `Channel1`** (a Simulator driver). Rename it (for example to `SimChannel`) and create a new **Modbus TCP/IP Ethernet** channel named `Channel1` with the device `ESP32`.
+- **Demo timers.** iFIX and the IGS Modbus driver each run for 2 hours. When IGS expires, every block shows a COMM alarm. Right-click the IGS tray icon → **Reinitialize** for another 2 hours, then acknowledge the alarms.
+- **iFIX digital convention: CLOSE = 1, OPEN = 0** (relay-contact terms). So:
+  - the **Close** label is the text for 1 and the **Open** label is the text for 0 (for example `P101_RUN`: Close = RUNNING, Open = STOPPED);
+  - DA blocks that alarm when the PLC bit is 1 need **Alarm Type = Close**;
+  - in the command experts, **Close Digital Tag writes 1** and **Open Digital Tag writes 0**.
+- **Don't toggle DO blocks.** A DO block has no value until something writes it (it shows `????`), so Toggle Digital Tag fails with *Field's value not known*. Use separate explicit buttons (AUTO / MANUAL, VALVE OPEN / VALVE CLOSE), and show the real state from a **DI feedback block** instead.
+- **Placing DO blocks on scan can write to the PLC** (the *Place Block On Scan* caution). Expect the valve or mode to change, and re-set them from the screen.
+- **Status inputs shouldn't alarm.** Use alarm type None, or Event Messaging, for normal state changes (valve, pump running). Keep alarms for conditions that need operator action (ISA-18.2).
+- **Data links show `#####` in Configure mode.** Values only appear after **Switch to Run**.
+- **Where things are in the 2024 ribbon:**
+  - Push Button, Data Link and Alarm Summary: **Insert → Objects/Links**.
+  - Button commands: **Tools → Tasks/Experts → Commands**.
+  - Animations: right-click an object → **Animations**.
+- **Two acknowledges.** The ACK button resets the PLC's horn (`HMI_AlarmAck`); acknowledging in the alarm summary only clears the alarm in iFIX. To do both from one button, write a VBA script.
+
 ## 6. Done when
 
 - [ ] Every control in the control narrative works from the iFIX screen.
