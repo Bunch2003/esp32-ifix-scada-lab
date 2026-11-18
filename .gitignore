@@ -1,0 +1,12 @@
+# Personal WiFi credentials / network config - never commit
+secrets.h
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Build output
+build/
+.pio/
+.vscode/
