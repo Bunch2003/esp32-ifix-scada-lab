@@ -39,6 +39,15 @@ flowchart LR
 
 A single tank filled by an inlet valve and emptied by a pump (a lift station, in water/wastewater terms). The PLC runs the pump between level setpoints in Auto, accepts manual start/stop in Manual, protects the pump from running dry, and raises high, low and pump-fault alarms. Full behavior is in [docs/control-narrative.md](docs/control-narrative.md).
 
+## Photos
+
+The breadboard "PLC" and the live iFIX screen, both driven by the same ESP32 over Modbus TCP:
+
+| Pump running (69 %) | Filling, pump off (33 %) |
+| --- | --- |
+| <img src="docs/images/ifix-tank-pump-running.png" width="260" alt="iFIX tank screen with pump running"> | <img src="docs/images/ifix-tank-filling.png" width="260" alt="iFIX tank screen while filling"> |
+| <img src="docs/images/breadboard-pump-running.jpg" width="260" alt="Breadboard with pump and valve LEDs on"> | <img src="docs/images/breadboard-filling.jpg" width="260" alt="Breadboard with only the valve LED on"> |
+
 ## Repo layout
 
 | Path | What it is |
@@ -64,8 +73,8 @@ A single tank filled by an inlet valve and emptied by a pump (a lift station, in
 
 ## Milestones
 
-- [ ] **M1 – Comms proven.** Simulator firmware on the ESP32; `tools/modbus_test.py` reads coils and registers over WiFi.
-- [ ] **M2 – iFIX connected.** iFIX trial installed; IGS channel/device configured; iFIX database blocks show live values from the simulator.
+- [x] **M1 – Comms proven.** Simulator firmware on the ESP32; `tools/modbus_test.py` reads coils and registers over WiFi.
+- [x] **M2 – iFIX connected.** iFIX trial installed; IGS channel/device configured; iFIX database blocks show live values from the simulator.
 - [ ] **M3 – Real PLC logic.** OpenPLC program loaded on the ESP32 with the breadboard wired; logic behaves per the control narrative.
 - [ ] **M4 – SCADA screens.** Tank overview screen with level, pump/valve status, Auto/Manual, start/stop, setpoint entry.
 - [ ] **M5 – Alarms and history.** Alarm summary, acknowledge, level trend from Proficy Historian.
