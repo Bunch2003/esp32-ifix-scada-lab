@@ -1,12 +1,27 @@
-# Personal WiFi credentials / network config - never commit
+# Secrets
 secrets.h
+
+# Arduino / PlatformIO build output
+build/
+.pio/
+*.bin
+*.elf
+
+# OpenPLC Editor build output
+plc/**/build/
 
 # Python
 __pycache__/
 *.pyc
 .venv/
+venv/
 
-# Build output
-build/
-.pio/
+# iFIX working/backup files (keep exports you choose to commit)
+*.bak
+*.tmp
+
+# OS / editor
+.DS_Store
+Thumbs.db
 .vscode/
+.idea/
